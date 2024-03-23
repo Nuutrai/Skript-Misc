@@ -1,0 +1,143 @@
+command /runthrough:
+	trigger:
+		set {_file::*} to file contents of "/plugins/Skript/scripts/lines/target.txt"
+		set {_count} to 0
+		delete {finished}
+		loop {_file::*}:
+			if {finished} is true:
+				exit loop
+			loop 500 times:
+				add 1 to {_count}
+				if {_file::%{_count}%} contains "[STDOUT]: Initializing printer":
+					if {_file::%{_count}%} contains "x=8.50, y=65.00, z=8.50":
+						set {_joined} to false
+					else:
+						if all:
+							{_file::%{_count}%} contains "x=5"
+							{_file::%{_count}%} contains "y=64"
+							{_file::%{_count}%} contains "z=-"
+						then:
+							set {_joined} to false
+						else:
+							set {_joined} to true
+				if all:
+					{_file::%{_count}%} contains "[Render thread/INFO]: [System] [CHAT]"
+					{_file::%{_count}%} doesn't contain "[Meteor]"
+					{_file::%{_count}%} doesn't contain "\n[AD]"
+					{_file::%{_count}%} doesn't contain "[CHEESE]"
+					{_file::%{_count}%} doesn't contain "[LEGEND]"
+					{_file::%{_count}%} doesn't contain "[MOD]"
+					{_file::%{_count}%} doesn't contain "[VIP]"
+					{_file::%{_count}%} doesn't contain "[VIP+]"
+					{_file::%{_count}%} doesn't contain "[PATRON]"
+					{_file::%{_count}%} doesn't contain "[PRO]"
+					{_file::%{_count}%} doesn't contain "[Render thread/INFO]: [System] [CHAT] Minehut"
+					{_file::%{_count}%} doesn't contain "[skUtilities: WARN]"
+					{_file::%{_count}%} doesn't contain "administrators" 
+					{_file::%{_count}%} doesn't contain "Unknown command. "
+					{_joined} = true
+					
+				then:
+					add 1 to {_p}
+					set {_a} to {_file::%{_count}%}
+					replace "[Render thread/INFO]: [System] [CHAT] " with "" in {_a}
+					set {_nf::%{_p}%} to {_a}
+			if {_count} >= size of {_file::*}:
+				set {finished} to true
+		set file contents of "/plugins/Skript/scripts/lines/new.txt" to {_nf::*}
+		send "finished"
+		delete {finished}
+
+command /cancelrt:
+	trigger:
+		set {finished} to true
+
+
+
+# command /runthrough:
+# 	trigger:
+# 		set {_file::*} to file contents of "/plugins/Skript/scripts/lines/target.txt"
+# 		set {_count} to 0
+# 		delete {finished}
+# 		loop {_file::*}:
+# 			if {finished} is true:
+# 				exit loop
+# 			loop 500 times:
+# 				add 1 to {_count}
+# 				if {_file::%{_count}%} contains "[STDOUT]: Initializing printer":
+# 					if {_file::%{_count}%} contains "x=8.50, y=65.00, z=8.50":
+# 						send "false - %{_count}%"
+# 						set {_joined} to false
+# 					else:
+# 						if all:
+# 							{_file::%{_count}%} contains "x=5"
+# 							{_file::%{_count}%} contains "y=64"
+# 							{_file::%{_count}%} contains "z=-"
+# 						then:
+# 							send "false - %{_count}%"
+# 							set {_joined} to false
+# 						else:
+# 							send "true - %{_count}%"
+# 							set {_joined} to true
+# 				if all:
+# 					{_file::%{_count}%} contains "[Render thread/INFO]: [System] [CHAT]"
+# 					{_file::%{_count}%} doesn't contain "[Meteor]"
+# 					{_file::%{_count}%} doesn't contain "\n[AD]"
+# 					{_file::%{_count}%} doesn't contain "[CHEESE]"
+# 					{_file::%{_count}%} doesn't contain "[LEGEND]"
+# 					{_file::%{_count}%} doesn't contain "[MOD]"
+# 					{_file::%{_count}%} doesn't contain "[VIP]"
+# 					{_file::%{_count}%} doesn't contain "[VIP+]"
+# 					{_file::%{_count}%} doesn't contain "[PATRON]"
+# 					{_file::%{_count}%} doesn't contain "[PRO]"
+# 					{_file::%{_count}%} doesn't contain "[Render thread/INFO]: [System] [CHAT] Minehut"
+# 					{_file::%{_count}%} doesn't contain "[skUtilities: WARN]"
+# 					{_file::%{_count}%} doesn't contain "administrators" 
+# 					{_file::%{_count}%} doesn't contain "Unknown command. "
+# 					{_file::%{_count}%} contains " PapaShamz: "
+# 					{_joined} = true
+					
+# 				then:
+# 					add 1 to {_p}
+# 					set {_ti} to {_p}
+# 					set {_c} to 0
+# 					set {_fs} to 0
+# 					while {_c} < 21:
+# 						if {_fs} < 300:
+# 							exit this loop
+# 						add 1 to {_fs}
+# 						if all:
+# 							{_file::%{_count} - 11 + loop-counter-3%} contains "[Render thread/INFO]: [System] [CHAT]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[Meteor]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "\n[AD]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[CHEESE]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[LEGEND]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[MOD]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[VIP]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[VIP+]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[PATRON]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[PRO]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[Render thread/INFO]: [System] [CHAT] Minehut"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "[skUtilities: WARN]"
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "administrators" 
+# 							{_file::%{_count} - 11 + loop-counter-3%} doesn't contain "Unknown command. "
+# 							{_joined} = true
+							
+# 						then:
+# 							set {_a} to {_file::%{_count} - 11 + loop-counter-3%}
+# 							# send "%{_ti}% %{_file::%{_count} - 11 + loop-counter-3%}%"
+# 							replace "[Render thread/INFO]: [System] [CHAT] " with "" in {_a}
+# 							set {_nf::%{_ti}%} to {_a}
+# 							send {_ti}
+# 							add 1 to {_ti}
+# 							add 1 to {_c}
+# 					set {_p} to {_ti}
+# 			if {_count} >= size of {_file::*}:
+# 				set {finished} to true
+# 		set file contents of "/plugins/Skript/scripts/lines/new.txt" to {_nf::*}
+# 		send "finished"
+# 		delete {finished}
+
+# command /cancelrt:
+# 	trigger:
+# 		set {finished} to true
